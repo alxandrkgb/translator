@@ -55,6 +55,16 @@ export default function Home() {
     setSelectedLanguage(languageCode);
   };
 
+  const [activeTargetLanguage, setActiveTargetLanguage] = useState('');
+  const [selectedTargetLanguage, setSelectedTargetLanguage] = useState('Spanish');
+
+  const handleTargetButtonClick = (languageCode, languageName) => {
+    setActiveTargetLanguage(languageCode);
+    if (languageName) {
+      setSelectedTargetLanguage(languageName);
+    }
+  };
+
   
 
   return (
@@ -158,22 +168,24 @@ export default function Home() {
 
         {/* End of Detected Language */}
 
+
         {/* Target Language */}
 
         <div className="w-[40%] h-[55vh] bg-[#121826cc] border rounded-xl border-[#4D5562] p-5">
           <div className="pb-3 flex flex-row gap-4">
-            <button className={`rounded-lg font-medium text-[#4D5562] `}>
+            <button className={`rounded-lg font-medium text-[#4D5562] ${activeTargetLanguage === 'en' ? 'active' : ''}`} onClick={() => handleTargetButtonClick('en')}>
               English
             </button>
-            <button className={`rounded-lg font-medium text-[#4D5562] `}>
+            <button className={`rounded-lg font-medium text-[#4D5562] ${activeTargetLanguage === 'fr' ? 'active' : ''}`} onClick={() => handleTargetButtonClick('fr')}>
               French
             </button>
             <button
               id="dropdownButton"
               data-dropdown-toggle="dropdown2"
-              className={`text-[#4D5562] rounded-lg text-base px-5 py-2.5 text-center inline-flex items-center `}
+              className={`text-[#4D5562] rounded-lg text-base px-5 py-2.5 text-center inline-flex items-center ${activeTargetLanguage === 'dropdown' ? 'active' : ''}`}
               type="button"
-            >
+              onClick={() => handleTargetButtonClick('dropdown')}
+            >{selectedTargetLanguage}
               <svg
                 class="w-2.5 h-2.5 ms-3"
                 aria-hidden="true"
@@ -201,10 +213,9 @@ export default function Home() {
               >
                 {languages.map((language) => (
                 <li key={language.code} value={language.code}>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >{language.name}</a>
+                  <button
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => handleTargetButtonClick(language.code, language.name)}
+                  >{language.name}</button>
                 </li>
                 ))}
               </ul>
